@@ -2,7 +2,6 @@ from settings import *
 from support import check_connections
 from timer import Timer
 from random import choice
-from monster import Monster
 
 class Entity(pygame.sprite.Sprite):
 	def __init__(self, pos, frames, groups, facing_direction):
@@ -60,8 +59,7 @@ class Character(Entity):
 		self.create_dialog = create_dialog
 		self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
 		self.nurse = nurse
-		self.monsters = {i: Monster(name, lvl) for i, (name, lvl) in character_data['monsters'].items()} if 'monsters' in character_data else None
-
+  
 		# movement 
 		self.has_moved = False
 		self.can_rotate = True

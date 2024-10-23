@@ -86,40 +86,6 @@ def tmx_importer(*path):
 			tmx_dict[file.split('.')[0]] = load_pygame(join(folder_path, file))
 	return tmx_dict
 
-def monster_importer(cols, rows, *path):
-	monster_dict = {}
-	for folder_path, sub_folders, image_names in walk(join(*path)):
-		for image in image_names:
-			image_name = image.split('.')[0]
-			monster_dict[image_name] = {}
-			frame_dict = import_tilemap(cols, rows, *path, image_name)
-			for row, key in enumerate(('idle', 'attack')):
-				monster_dict[image_name][key] = [frame_dict[(col,row)] for col in range(cols)]
-	return monster_dict
-
-def outline_creator(frame_dict, width):
-	outline_frame_dict = {}
-	for monster, monster_frames in frame_dict.items():
-		outline_frame_dict[monster] = {}
-		for state, frames in monster_frames.items():
-			outline_frame_dict[monster][state] = []
-			for frame in frames:
-				new_surf = pygame.Surface(vector(frame.get_size()) + vector(width * 2), pygame.SRCALPHA)
-				new_surf.fill((0,0,0,0))
-				white_frame = pygame.mask.from_surface(frame).to_surface()
-				white_frame.set_colorkey('black')
-
-				new_surf.blit(white_frame, (0,0))
-				new_surf.blit(white_frame, (width,0))
-				new_surf.blit(white_frame, (width * 2,0))
-				new_surf.blit(white_frame, (width * 2,width))
-				new_surf.blit(white_frame, (width * 2,width * 2))
-				new_surf.blit(white_frame, (width,width * 2))
-				new_surf.blit(white_frame, (0,width * 2))
-				new_surf.blit(white_frame, (0,width))
-				outline_frame_dict[monster][state].append(new_surf)
-	return outline_frame_dict
-
 def attack_importer(*path):
 	attack_dict = {}
 	for folder_path, _, image_names in walk(join(*path)):
