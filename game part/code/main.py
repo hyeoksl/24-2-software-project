@@ -203,5 +203,13 @@ class Game:
 			pygame.display.update()
 
 if __name__ == '__main__':
+	import pygame
+
+	# Initialize Pygame
+	pygame.init()
+
+	# Initialize the mixer
+	pygame.mixer.init()
+
 	game = Game()
 	game.run()
